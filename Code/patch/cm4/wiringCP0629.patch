@@ -658,8 +658,8 @@ index 097755a..63e2529 100644
  	(model == PI_MODEL_3B)   || (model == PI_MODEL_3BP) ||
  	(model == PI_MODEL_ZERO) || (model == PI_MODEL_ZERO_W))
      piPlusReadall (model) ;
--  else if ((model == PI_MODEL_CM) || (model == PI_MODEL_CM3) || ((model == PI_MODEL_CM3P)))
-+  else if ((model == PI_MODEL_CM) || (model == PI_MODEL_CM3) || ((model == PI_MODEL_CM3P)) || ((model == PI_MODEL_CM4)))
+-  else if ((model == PI_MODEL_CM) || (model == PI_MODEL_CM3) || (model == PI_MODEL_CM3P) )
++  else if ((model == PI_MODEL_CM) || (model == PI_MODEL_CM3) || (model == PI_MODEL_CM3P) || (model == PI_MODEL_CM4))
      allReadall () ;
    else
      printf ("Oops - unable to determine board type... model: %d\n", model) ;
@@ -1625,40 +1625,6 @@ index 3db6866..7f880a0 100644
  // Environment Variables
  
  #define	ENV_DEBUG	"WIRINGPI_DEBUG"
-@@ -218,7 +222,7 @@ volatile unsigned int *_wiringPiTimerIrqRaw ;
- 
- static volatile unsigned int piGpioBase = 0 ;
- 
--const char *piModelNames [20] =
-+const char *piModelNames [21] =
- {
-   "Model A",	//  0
-   "Model B",	//  1
-@@ -237,9 +241,10 @@ const char *piModelNames [20] =
-   "Pi 3A+",	// 14
-   "Unknown15",	// 15
-   "CM3+",	// 16
--  "Unknown17",	// 17
--  "Unknown18",	// 18
--  "Unknown19",	// 19
-+  "Unknown17",  // 17
-+  "Unknown18",  // 18
-+  "Unknown19",  // 19
-+  "CM4",	// 20
- } ;
- 
- const char *piRevisionNames [16] =
-@@ -287,8 +292,8 @@ const int piMemorySize [8] =
-    256,		//	 0
-    512,		//	 1
-   1024,		//	 2
--     0,		//	 3
--     0,		//	 4
-+  2048,		//	 3
-+  4096,		//	 4
-      0,		//	 5
-      0,		//	 6
-      0,		//	 7
 @@ -725,7 +730,7 @@ static void usingGpioMemCheck (const char *what)
   *********************************************************************************
   */
@@ -1741,7 +1707,7 @@ index 3db6866..7f880a0 100644
    if ((pin & PI_GPIO_MASK) == 0)		// On-Board Pin
    {
      /**/ if (wiringPiMode == WPI_MODE_GPIO_SYS)	// Sys mode
-@@ -2243,7 +2279,7 @@ int wiringPiSetup (void)
+@@ -2278,7 +2314,7 @@ int wiringPiSetup (void)
  
    piBoardId (&model, &rev, &mem, &maker, &overVolted) ;
  
@@ -1814,10 +1780,10 @@ index 0ff0c92..9662668 100644
  // wiringPi modes
  
  #define	WPI_MODE_PINS		 0
-@@ -102,7 +106,12 @@
- #define	PI_MODEL_3BP 		13
- #define	PI_MODEL_3AP 		14
- #define	PI_MODEL_CM3P 		16
+@@ -107,7 +111,12 @@
+ #define	PI_MODEL_ZERO_2W	18
+ #define	PI_MODEL_400		19
+ #define	PI_MODEL_CM4		20
 -
 +#define	PI_MODEL_CM4 		20
 +#ifdef CONFIG_CLOCKWORKPI
@@ -1828,15 +1794,6 @@ index 0ff0c92..9662668 100644
  #define	PI_VERSION_1		0
  #define	PI_VERSION_1_1		1
  #define	PI_VERSION_1_2		2
-@@ -113,7 +122,7 @@
- #define	PI_MAKER_EMBEST		2
- #define	PI_MAKER_UNKNOWN	3
- 
--extern const char *piModelNames    [20] ;
-+extern const char *piModelNames    [21] ;
- extern const char *piRevisionNames [16] ;
- extern const char *piMakerNames    [16] ;
- extern const int   piMemorySize    [ 8] ;
 @@ -187,6 +196,10 @@ extern "C" {
  
  // Internal
